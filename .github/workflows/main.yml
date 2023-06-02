@@ -21,15 +21,12 @@ jobs:
           msystem: ${{matrix.sys}}
           install: >-
             mingw-w64-${{matrix.env}}-python
-            mingw-w64-${{matrix.env}}-meson
             mingw-w64-${{matrix.env}}-ninja
             mingw-w64-${{matrix.env}}-cc
+            git
 
       - uses: actions/checkout@v3
 
       - shell: msys2 {0}
         run: |
-          cd project
-          meson setup _build
-          cd _build
-          ninja
+          ./test.sh
