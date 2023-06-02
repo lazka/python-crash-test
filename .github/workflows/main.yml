@@ -21,7 +21,6 @@ jobs:
         with:
           msystem: ${{matrix.sys}}
           install: >-
-            mingw-w64-${{matrix.env}}-python
             mingw-w64-${{matrix.env}}-ninja
             mingw-w64-${{matrix.env}}-cc
             git
