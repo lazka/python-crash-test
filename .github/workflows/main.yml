@@ -16,6 +16,10 @@ jobs:
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
@@ -32,7 +36,7 @@ jobs:
       - uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: '3.10.0-alpha.1'
+          python-version: '3.10.0-alpha.7'
 
       - uses: actions/checkout@v3
 
