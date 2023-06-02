@@ -20,4 +20,6 @@ jobs:
 
       - shell: msys2 {0}
         run: |
-          echo "Hello"
+          meson setup _build
+          cd _build
+          ninja
