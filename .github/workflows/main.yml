@@ -26,8 +26,13 @@ jobs:
             mingw-w64-${{matrix.env}}-cc
             git
 
+      - uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: '3.10' 
+
       - uses: actions/checkout@v3
 
       - shell: msys2 {0}
         run: |
-          ./test.sh
+          ./test.sh '${{ steps.setup-python.outputs.python-path }}'
