@@ -8,15 +8,22 @@ on:
 jobs:
   test:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { sys: mingw64, env: x86_64 }
+          - { sys: ucrt64,  env: ucrt-x86_64 }
+          - { sys: clang64, env: clang-x86_64 }
     steps:
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: UCRT64
+          msystem: ${{matrix.sys}}
           install: >-
-            mingw-w64-ucrt-x86_64-python
-            mingw-w64-ucrt-x86_64-meson
-            mingw-w64-ucrt-x86_64-ninja
-            mingw-w64-ucrt-x86_64-cc
+            mingw-w64-${{matrix.env}}-python
+            mingw-w64-${{matrix.env}}-meson
+            mingw-w64-${{matrix.env}}-ninja
+            mingw-w64-${{matrix.env}}-cc
 
       - uses: actions/checkout@v3
 
