@@ -1,12 +1,23 @@
-  - uses: msys2/setup-msys2@v2
-    with:
-      msystem: UCRT64
-      install: >-
-        mingw-w64-ucrt-x86_64-python
-        mingw-w64-ucrt-x86_64-meson
-        mingw-w64-ucrt-x86_64-ninja
-        mingw-w64-ucrt-x86_64-cc
+name: 'main'
 
-  - shell: msys2 {0}
-    run: |
-      echo "Hello"
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          install: >-
+            mingw-w64-ucrt-x86_64-python
+            mingw-w64-ucrt-x86_64-meson
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-cc
+
+      - shell: msys2 {0}
+        run: |
+          echo "Hello"
