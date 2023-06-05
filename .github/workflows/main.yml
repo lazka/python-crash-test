@@ -41,7 +41,7 @@ jobs:
           cd D:\
           git clone https://github.com/python/cpython.git
           cd cpython
-          git checkout 290f5ae9977488d0faa0890d596aeed88e97355f
+          git checkout 64abf373444944a240274a9b6d66d1cb01ecfcdd
           git apply $env:GITHUB_WORKSPACE\0001-bpo-45022-Pin-current-libffi-build-to-fixed-version-.patch
           .\PCbuild\build.bat -e
           .\PCbuild\amd64\python.exe --version
