@@ -41,7 +41,7 @@ jobs:
           cd D:\
           git clone https://github.com/python/cpython.git
           cd cpython
-          git checkout v3.11.0a4
+          git checkout bc87ac6d0b13116f525215f8a31b46506bc8d629
           .\PCbuild\build.bat -e
           .\PCbuild\amd64\python.exe --version
 
