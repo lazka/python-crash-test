@@ -19,13 +19,13 @@ jobs:
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
           - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2022 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
     steps:
       - uses: msys2/setup-msys2@v2
         with:
@@ -41,7 +41,7 @@ jobs:
           cd D:\
           git clone https://github.com/python/cpython.git
           cd cpython
-          git checkout b8fde8b5418b75d2935d0ff93b20d45d5350f206
+          git checkout v3.10.0a4
           .\PCbuild\build.bat -e
           .\PCbuild\amd64\python.exe --version
 
