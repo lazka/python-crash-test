@@ -42,7 +42,7 @@ jobs:
           git clone https://github.com/python/cpython.git
           cd cpython
           git checkout v3.10.0a4
-          git apply ..\0001-bpo-45022-Pin-current-libffi-build-to-fixed-version-.patch
+          git apply $env:GITHUB_WORKSPACE\0001-bpo-45022-Pin-current-libffi-build-to-fixed-version-.patch
           .\PCbuild\build.bat -e
           .\PCbuild\amd64\python.exe --version
 
