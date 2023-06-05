@@ -35,13 +35,16 @@ jobs:
             mingw-w64-${{matrix.env}}-cc
             git
 
-      - uses: actions/setup-python@v4
-        id: setup-python
-        with:
-          python-version: '3.11.0-alpha.6'
-
       - uses: actions/checkout@v3
+
+      - run: |
+          cd D:\
+          git clone https://github.com/python/cpython.git
+          cd cpython
+          git checkout v3.11.0a3
+          .\PCbuild\build.bat -e
+          .\PCbuild\amd64\python.exe --version
 
       - shell: msys2 {0}
         run: |
-          ./test.sh '${{ steps.setup-python.outputs.python-path }}'
+          ./test.sh '/D/cpython/PCbuild/amd64/python.exe'
