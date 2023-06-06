@@ -24,9 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+      - run: |
+          cd D:\
+          git clone https://github.com/python/cpython.git
+          cd cpython
+          git checkout v3.10.11
+          .\PCbuild\build.bat -e
+          .\PCbuild\amd64\python.exe --version
 
       - run: |
           # Set SetErrorMode(SEM_NOGPFAULTERRORBOX)
@@ -42,18 +46,5 @@ jobs:
           $ErrorMode = 0x0002 # SEM_NOGPFAULTERRORBOX
           [ErrorModeHelper]::SetErrorMode($ErrorMode)
 
-          # Install meson and ninja
-          pip install meson
-          pip install ninja
-
-          # See where things are comming from
-          (Get-Command meson).Path
-          (Get-Command ninja).Path
-          (Get-Command gcc).Path
-          (Get-Command python).Path
-
-          # Build the meson project
-          cd project
-          meson setup _build
-          cd _build
-          ninja
+          cd D:\cpython
+          .\PCbuild\rt.bat
