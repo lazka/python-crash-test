@@ -28,6 +28,25 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: |
+          # Define custom type for calling SetErrorMode from the Windows API
+          Add-Type -TypeDefinition @"
+          using System;
+          using System.Runtime.InteropServices;
+
+          public class ErrorModeHelper
+          {
+              [DllImport("kernel32.dll")]
+              public static extern uint SetErrorMode(uint uMode);
+
+              [DllImport("kernel32.dll")]
+              public static extern uint GetErrorMode();
+          }
+          "@
+
+          $ErrorMode = 0x0001 -bor 0x0002 # SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX
+
+          [ErrorModeHelper]::SetErrorMode($ErrorMode)
+
           $env:PATH="D:/a/_temp/msys64/ucrt64/bin;$env:PATH"
           cd project
           meson setup _build
