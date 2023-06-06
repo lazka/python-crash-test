@@ -26,28 +26,31 @@ jobs:
           python-version: '3.10' 
 
       - run: |
-          # Define custom type for calling SetErrorMode from the Windows API
+          # Set SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX)
           Add-Type -TypeDefinition @"
           using System;
           using System.Runtime.InteropServices;
-
           public class ErrorModeHelper
           {
               [DllImport("kernel32.dll")]
               public static extern uint SetErrorMode(uint uMode);
-
-              [DllImport("kernel32.dll")]
-              public static extern uint GetErrorMode();
           }
           "@
-
           $ErrorMode = 0x0001 -bor 0x0002 # SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX
-
           [ErrorModeHelper]::SetErrorMode($ErrorMode)
 
+          # Install meson, ninja and add GCC to PATH
           pipx install meson
           pipx install ninja
+          $env:PATH="C:\msys64\mingw64\bin;$env:PATH"
 
+          # See where things are comming from
+          (Get-Command meson).Path
+          (Get-Command ninja).Path
+          (Get-Command gcc).Path
+          (Get-Command python).Path
+
+          # Build the meson project
           cd project
           meson setup _build
           cd _build
