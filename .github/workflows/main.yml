@@ -18,6 +18,9 @@ jobs:
           - { name: 4 }
           - { name: 5 }
           - { name: 6 }
+          - { name: 7 }
+          - { name: 8 }
+          - { name: 9 }
     steps:
       - uses: actions/checkout@v3
 
@@ -26,7 +29,7 @@ jobs:
           python-version: '3.10'
 
       - run: |
-          # Set SetErrorMode(SEM_FAILCRITICALERRORS)
+          # Set SetErrorMode(SEM_NOGPFAULTERRORBOX)
           Add-Type -TypeDefinition @"
           using System;
           using System.Runtime.InteropServices;
@@ -36,7 +39,7 @@ jobs:
               public static extern uint SetErrorMode(uint uMode);
           }
           "@
-          $ErrorMode = 0x0001 # SEM_FAILCRITICALERRORS
+          $ErrorMode = 0x0002 # SEM_NOGPFAULTERRORBOX
           [ErrorModeHelper]::SetErrorMode($ErrorMode)
 
           # Install meson and ninja
