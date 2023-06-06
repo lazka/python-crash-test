@@ -46,8 +46,8 @@ jobs:
           [ErrorModeHelper]::SetErrorMode($ErrorMode)
 
           # Install meson, ninja and add GCC to PATH
-          pipx install meson
-          pipx install ninja
+          pip install meson
+          pip install ninja
           $env:PATH="C:\msys64\ucrt64\bin;$env:PATH"
 
           # See where things are comming from
