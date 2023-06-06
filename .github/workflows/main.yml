@@ -12,20 +12,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { sys: ucrt64, env: ucrt-x86_64  }
-          - { sys: ucrt64,  env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64  }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
     steps:
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{matrix.sys}}
-          install: >-
-            mingw-w64-${{matrix.env}}-python
-            mingw-w64-${{matrix.env}}-meson
-            mingw-w64-${{matrix.env}}-ninja
-            mingw-w64-${{matrix.env}}-cc
-
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
 
       - run: |
           # Define custom type for calling SetErrorMode from the Windows API
@@ -47,7 +45,9 @@ jobs:
 
           [ErrorModeHelper]::SetErrorMode($ErrorMode)
 
-          $env:PATH="D:/a/_temp/msys64/ucrt64/bin;$env:PATH"
+          pipx install meson
+          pipx install ninja
+
           cd project
           meson setup _build
           cd _build
