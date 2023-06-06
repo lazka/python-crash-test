@@ -12,40 +12,48 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
-          - { sys: ucrt64, env: ucrt-x86_64, runson: windows-2019 }
+          - { name: 1 }
+          - { name: 2 }
+          - { name: 3 }
+          - { name: 4 }
+          - { name: 5 }
+          - { name: 6 }
+          - { name: 7 }
+          - { name: 8 }
+          - { name: 9 }
     steps:
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{matrix.sys}}
-          install: >-
-            mingw-w64-${{matrix.env}}-ninja
-            mingw-w64-${{matrix.env}}-cc
-            git
-
       - uses: actions/checkout@v3
 
-      - run: |
-          cd D:\
-          git clone https://github.com/python/cpython.git
-          cd cpython
-          git checkout 77fde8dc16dc808b9f9838af1aa1253e15cab6ad
-          git apply $env:GITHUB_WORKSPACE\0001-bpo-45022-Pin-current-libffi-build-to-fixed-version-.patch
-          .\PCbuild\build.bat -e
-          .\PCbuild\amd64\python.exe --version
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-      - shell: msys2 {0}
-        run: |
-          ./test.sh '/D/cpython/PCbuild/amd64/python.exe'
+      - run: |
+          # Set SetErrorMode(SEM_NOGPFAULTERRORBOX)
+          Add-Type -TypeDefinition @"
+          using System;
+          using System.Runtime.InteropServices;
+          public class ErrorModeHelper
+          {
+              [DllImport("kernel32.dll")]
+              public static extern uint SetErrorMode(uint uMode);
+          }
+          "@
+          $ErrorMode = 0x0002 # SEM_NOGPFAULTERRORBOX
+          [ErrorModeHelper]::SetErrorMode($ErrorMode)
+
+          # Install meson and ninja
+          pip install meson
+          pip install ninja
+
+          # See where things are comming from
+          (Get-Command meson).Path
+          (Get-Command ninja).Path
+          (Get-Command gcc).Path
+          (Get-Command python).Path
+
+          # Build the meson project
+          cd project
+          meson setup _build
+          cd _build
+          ninja
