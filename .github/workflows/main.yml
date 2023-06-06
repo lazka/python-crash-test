@@ -12,15 +12,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { sys: ucrt64, env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64 }
-          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { name: 1 }
+          - { name: 2 }
+          - { name: 3 }
+          - { name: 4 }
+          - { name: 5 }
+          - { name: 6 }
     steps:
       - uses: actions/checkout@v3
 
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          install: mingw-w64-ucrt-x86_64-cc
+          release: false
+  
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
@@ -42,7 +48,7 @@ jobs:
           # Install meson, ninja and add GCC to PATH
           pipx install meson
           pipx install ninja
-          $env:PATH="C:\msys64\mingw64\bin;$env:PATH"
+          $env:PATH="C:\msys64\ucrt64\bin;$env:PATH"
 
           # See where things are comming from
           (Get-Command meson).Path
